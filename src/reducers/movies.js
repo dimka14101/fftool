@@ -1,6 +1,6 @@
 import {
     POSTS_REQ, POSTS_RES, POSTS_ERR
-} from '../constants';
+} from '../Constants';
 
 const initailState = {
 

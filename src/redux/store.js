@@ -3,25 +3,31 @@ import thunk from 'redux-thunk';
 
 import reducers from '../reducers';
 
-// import loggerMiddleware from './middlewares/logger';
-import promise from './middlewares/promise';
+import { loadState, saveState } from '../helpers/localStorage'; 
 
 const composeEnhancers = process.env.NODE_ENV !==
     'production' && typeof window !==
     'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__  ?
     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : compose;
 
-const middlewares = applyMiddleware(
-    // loggerMiddleware,
-    thunk,
-    promise
-    ///...
-);
+const middlewares = applyMiddleware( thunk );
+
+const preloadData = loadState();
 
 
-const store = createStore( 
-    reducers,
-    composeEnhancers(middlewares)
-);
+let store = null;
+
+if( preloadData ){
+    store = createStore( reducers, preloadData, composeEnhancers(middlewares) );
+} else {
+    store = createStore( reducers, composeEnhancers(middlewares) );
+}
+
+store.subscribe( () => {
+    let state = store.getState();
+    saveState({
+        posts: state.posts
+    });
+})
 
 export default store;

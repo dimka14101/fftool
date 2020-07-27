@@ -35,8 +35,8 @@ class Home extends Component{
 }
 
 const mapStateToProps = (state) => ({
-    posts: state.posts.posts,
-    loaded: state.posts.posts_loaded
+    posts: state.movies.posts,
+    loaded: state.movies.posts_loaded
 })
 
 const mapDispatchToProps = (dispatch) => ({
