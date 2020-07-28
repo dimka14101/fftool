@@ -8,7 +8,7 @@ export const CLEAR_POSTS = "CLEAR_POSTS";
 
 export const getPosts = ( dispatch ) => {
     dispatch({ type: POSTS_REQ });
-    axios.get(`/posts`)
+    axios.get('/movie/top_rated')
         .then( res => {
             console.log( res );
             dispatch({ type: POSTS_RES, payload: res.data });

@@ -1,50 +1,27 @@
 import React, { Component } from 'react'
 
-import { connect } from 'react-redux';
-
-import { getPosts } from '../actions';
+import { FilterPanel, MoviesList, TopMoviesPanel } from './MainContainer'
 
 class Home extends Component{
 
-    componentDidMount = () => {
-        this.props.getPostsAction();
-    }
-
     render = () => {
-
-        const { loaded, posts } = this.props;
         return(
             <div>
-                <h1> Posts </h1>
-                {
-                    !loaded ? 
-                        (<h2> Loading ... </h2>) :
-                        (
-                            <ul>
-                                {
-                                    posts.map( item => (
-                                        <li key={item.id}>{item.title}</li>
-                                    ))
-                                }
-                            </ul>
-                        )
-                }
+                <h1> Movies  </h1>
+                <div class="row">
+                    <div class="col-md-3">
+                        <FilterPanel/>
+                    </div>
+                    <div class="col-md-6">
+                        <MoviesList/>
+                    </div>
+                    <div class="col-md-3">
+                        <TopMoviesPanel/>
+                    </div>
+                </div>
             </div>
         )
     }
 }
 
-const mapStateToProps = (state) => ({
-    posts: state.movies.posts,
-    loaded: state.movies.posts_loaded
-})
-
-const mapDispatchToProps = (dispatch) => ({
-    getPostsAction: () => {
-        dispatch( getPosts );
-    }
-});
-
-
-
-export default connect(mapStateToProps, mapDispatchToProps )(Home);
+export default Home;

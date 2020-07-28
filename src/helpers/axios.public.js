@@ -1,10 +1,13 @@
 import axios from 'axios';
 
-const instance = axios.create({
-    baseURL: 'https://jsonplaceholder.typicode.com/',
-    headers: {
-        'Custom-Header': 'iteaHello'
-    }
+const axClient = axios.create({
+    baseURL: 'https://api.themoviedb.org/3',
 });
 
-export default instance;
+axClient.interceptors.request.use((config) => {
+    config.params = config.params || {};
+    config.params['api_key'] = 'f75f4f95ed0d6fb14fc6359b87b20ddf';
+    return config;
+});
+
+export default axClient;
