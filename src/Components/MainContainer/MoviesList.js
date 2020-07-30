@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getPosts } from "../../Actions";
+import { NavLink } from "react-router-dom";
 
 class MoviesList extends Component {
   componentDidMount = () => {
@@ -19,11 +20,18 @@ class MoviesList extends Component {
             {!loaded ? (
               <h2> Loading ... </h2>
             ) : (
-              <ul>
-                {/* posts.map( item => (
-                                        <li key={item.id}>{item.title}</li>
-                                    ))*/}
-              </ul>
+              <>
+                {posts.results.map((item) => (
+                  <NavLink movieId={item.id} key={item.id} to={`/${item.id}`}>
+                    <li>{item.title}</li>
+                    <img
+                      style={{ width: 200, height: 250 }}
+                      alt="poster"
+                      src={"https://image.tmdb.org/t/p/w500" + item.poster_path}
+                    ></img>
+                  </NavLink>
+                ))}
+              </>
             )}
           </div>
         </div>

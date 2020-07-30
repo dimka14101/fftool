@@ -1,23 +1,51 @@
+import axios from "../Helpers/axios.public";
+import {
+  RECOM_REQ,
+  RECOM_RES,
+  RECOM_ERR,
+  POSTS_REQ,
+  POSTS_RES,
+  POSTS_ERR,
+  MOVIE_REQ,
+  MOVIE_RES,
+  MOVIE_ERR,
+} from "../Constants";
 
-import axios from '../helpers/axios.public';
+export const getPosts = (dispatch) => {
+  dispatch({ type: POSTS_REQ });
+  axios
+    .get("/movie/top_rated")
+    .then((res) => {
+      console.log(res);
+      dispatch({ type: POSTS_RES, payload: res.data });
+    })
+    .catch((err) => {
+      dispatch({ type: POSTS_ERR, error: err });
+    });
+};
 
-export const POSTS_REQ = "POSTS_REQ";
-export const POSTS_RES = "POSTS_RES";
-export const POSTS_ERR = "POSTS_ERR";
-export const CLEAR_POSTS = "CLEAR_POSTS";
+export const getMovie = (movieId) => (dispatch) => {
+  dispatch({ type: MOVIE_REQ });
+  axios
+    .get("/movie/" + movieId)
+    .then((res) => {
+      console.log(res);
+      dispatch({ type: MOVIE_RES, payload: res.data });
+    })
+    .catch((err) => {
+      dispatch({ type: MOVIE_ERR, error: err });
+    });
+};
 
-export const getPosts = ( dispatch ) => {
-    dispatch({ type: POSTS_REQ });
-    axios.get('/movie/top_rated')
-        .then( res => {
-            console.log( res );
-            dispatch({ type: POSTS_RES, payload: res.data });
-        })
-        .catch( err => {
-            dispatch({ type: POSTS_ERR, error: err });
-        })
-}
-
-export const clearPosts = ( dispatch ) => {
-    dispatch({ type: CLEAR_POSTS });
-} 
+export const getMovieRecommendationFilms = (dispatch) => {
+  dispatch({ type: RECOM_REQ });
+  axios
+    .get("/movie/200/recommendations")
+    .then((res) => {
+      console.log(res);
+      dispatch({ type: RECOM_RES, payload: res.data });
+    })
+    .catch((err) => {
+      dispatch({ type: RECOM_ERR, error: err });
+    });
+};

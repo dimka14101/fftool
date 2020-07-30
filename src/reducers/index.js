@@ -1,12 +1,12 @@
-import { combineReducers } from 'redux';
-
-
-import movies from './movies';
+import { combineReducers } from "redux";
+import recommendationMovies from "./recommendations";
+import movies from "./movies";
+import movie from "./movie";
 
 const rootReducer = combineReducers({
-    movies
-})
-
+  movies,
+  recommendationMovies,
+  movie,
+});
 
 export default rootReducer;
-
