@@ -1,42 +1,49 @@
-import {
-    MOVIES_REQ, MOVIES_RES, MOVIES_ERR
-} from '../Constants';
+import { POSTS_REQ, POSTS_RES, POSTS_ERR } from "../Constants";
 
-const initialState = {
+const initailState = {
+  posts: [],
+  posts_loaded: false,
+  posts_errors: [],
+};
 
-    movies: [],
-    moviesLoaded: false,
-    moviesError: []
+// export const postReq = (posts_loaded) => ({
+//   type: POSTS_REQ,
+//   posts_loaded,
+// });
+// export const postRes = (posts_loaded, posts) => ({
+//   type: POSTS_RES,
+//   posts_loaded,
+//   posts,
+// });
+// export const postErr = (posts_loaded) => ({
+//   type: POSTS_ERR,
+//   posts_loaded,
+// });
 
-}
+const postsReducer = (state = initailState, action) => {
+  switch (action.type) {
+    case POSTS_REQ:
+      return {
+        ...state,
+        posts_loaded: false,
+      };
 
-const postsReducer = ( state = initialState, action ) => {
-    switch( action.type ){
+    case POSTS_RES:
+      return {
+        ...state,
+        posts_loaded: true,
+        posts: action.payload,
+      };
 
-        case MOVIES_REQ:
-            return({
-                ...state,
-                moviesLoaded: false
-            });
-        
-        case MOVIES_RES:
-            return({
-                ...state,
-                moviesLoaded: true,
-                movies: action.payload
-            });
+    case POSTS_ERR:
+      return {
+        ...state,
+        posts_errors: [...state.posts_errors, action.error],
+      };
 
-        case MOVIES_ERR: 
-            return({
-                ...state,
-                moviesError: [...state.moviesError, action.error ]
-            });
-
-        default:
-            return state;
-
-    }
-}
-
+    default:
+      return state;
+  }
+};
 
 export default postsReducer;
