@@ -1,15 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getPosts } from "../../Actions";
 import { NavLink } from "react-router-dom";
+import { getMovies } from "../../Actions";
 
 class MoviesList extends Component {
   componentDidMount = () => {
-    this.props.getPostsAction();
+    this.props.getMoviesAction();
   };
 
   render = () => {
-    const { loaded, posts } = this.props;
+    const { loaded, movies } = this.props;
 
     return (
       <>
@@ -20,19 +20,19 @@ class MoviesList extends Component {
             {!loaded ? (
               <h2> Loading ... </h2>
             ) : (
-              <>
-                {posts.results.map((item) => (
-                  <NavLink movieId={item.id} key={item.id} to={`/${item.id}`}>
-                    <li>{item.title}</li>
-                    <img
-                      style={{ width: 200, height: 250 }}
-                      alt="poster"
-                      src={"https://image.tmdb.org/t/p/w500" + item.poster_path}
-                    ></img>
-                  </NavLink>
-                ))}
-              </>
-            )}
+                <>
+                  {movies.map((item) => (
+                    <NavLink movieId={item.id} key={item.id} to={`/${item.id}`}>
+                      <li>{item.title}</li>
+                      <img
+                        style={{ width: 200, height: 250 }}
+                        alt="poster"
+                        src={"https://image.tmdb.org/t/p/w500" + item.poster_path}
+                      ></img>
+                    </NavLink>
+                  ))}
+                </>
+              )}
           </div>
         </div>
       </>
@@ -41,13 +41,13 @@ class MoviesList extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  posts: state.movies.posts,
-  loaded: state.movies.posts_loaded,
+  movies: state.movies.movies,
+  loaded: state.movies.moviesLoaded,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getPostsAction: () => {
-    dispatch(getPosts);
+  getMoviesAction: () => {
+    dispatch(getMovies);
   },
 });
 

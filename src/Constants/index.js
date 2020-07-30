@@ -9,9 +9,13 @@ export const USERS_ERROR = "USERS_ERROR";
 export const FILTER_USERS = "FILTER_USERS";
 export const CLEAN_FILTER = "CLEAN_FILTER";
 
-export const POSTS_REQ = "POSTS_REQ";
-export const POSTS_RES = "POSTS_RES";
-export const POSTS_ERR = "POSTS_ERR";
+export const MOVIES_REQ = "MOVIES_REQ";
+export const MOVIES_RES = "MOVIES_RES";
+export const MOVIES_ERR = "MOVIES_ERR";
+
+export const GENRES_REQ = "GENRES_REQ";
+export const GENRES_RES = "GENRES_RES";
+export const GENRES_ERR = "GENRES_ERR";
 
 export const PROMISE = "PROMISE";
 

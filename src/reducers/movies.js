@@ -1,35 +1,35 @@
 import {
-    POSTS_REQ, POSTS_RES, POSTS_ERR
+    MOVIES_REQ, MOVIES_RES, MOVIES_ERR
 } from '../Constants';
 
-const initailState = {
+const initialState = {
 
-    posts: [],
-    posts_loaded: false,
-    posts_errors: []
+    movies: [],
+    moviesLoaded: false,
+    moviesError: []
 
 }
 
-const postsReducer = ( state = initailState, action ) => {
+const postsReducer = ( state = initialState, action ) => {
     switch( action.type ){
 
-        case POSTS_REQ:
+        case MOVIES_REQ:
             return({
                 ...state,
-                posts_loaded: false
+                moviesLoaded: false
             });
         
-        case POSTS_RES:
+        case MOVIES_RES:
             return({
                 ...state,
-                posts_loaded: true,
-                posts: action.payload
+                moviesLoaded: true,
+                movies: action.payload
             });
 
-        case POSTS_ERR: 
+        case MOVIES_ERR: 
             return({
                 ...state,
-                posts_errors: [...state.posts_errors, action.error ]
+                moviesError: [...state.moviesError, action.error ]
             });
 
         default:
@@ -37,5 +37,6 @@ const postsReducer = ( state = initailState, action ) => {
 
     }
 }
+
 
 export default postsReducer;
