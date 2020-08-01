@@ -5,13 +5,22 @@ import FilmRecommendation from "./RecommendationFilms";
 import style from "./FilmPage.module.css";
 
 class FilmPage extends React.Component {
-  componentDidMount = () => {
+  refreshProfile() {
     this.props.getPostsAction(this.props.match.params.id);
+  }
+
+  componentDidMount = () => {
+    this.refreshProfile();
   };
-  movieId = 0;
+
+  componentDidUpdate(prevProps, prevState) {
+    window.scrollTo(0, 0);
+    if (this.props.match.params.id !== prevProps.match.params.id)
+      this.refreshProfile();
+  }
+
   render = () => {
-    const { loaded, movie } = this.props;
-    this.movieId = this.props.match.params.id;
+    const { loaded, movie, match } = this.props;
     return (
       <>
         <div className={style.blockFilm}>
@@ -36,7 +45,7 @@ class FilmPage extends React.Component {
               </div>
             )}
           </div>
-          <FilmRecommendation />
+          <FilmRecommendation movieId={match.params.id} />
         </div>
       </>
     );
@@ -52,6 +61,9 @@ const mapDispatchToProps = (dispatch) => ({
   getPostsAction: (movieId) => {
     dispatch(getMovie(movieId));
   },
+  // getPostsRecomAction: (movieRecomId) => {
+  //   dispatch(getMovieRecommendationFilms(movieRecomId));
+  // },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(FilmPage);
