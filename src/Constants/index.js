@@ -26,3 +26,13 @@ export const RECOM_ERR = "RECOM_ERR";
 export const MOVIE_REQ = "MOVIE_REQ";
 export const MOVIE_RES = "MOVIE_RES";
 export const MOVIE_ERR = "MOVIE_ERR";
+
+export const BY_GENRES_REQ = "BY_GENRES_REQ";
+export const BY_GENRES_RES = "BY_GENRES_RES";
+export const BY_GENRES_ERR = "BY_GENRES_ERR";
+export const BY_GENRES_CLEAR = "BY_GENRES_CLEAR";
+
+export const TOP_MOVIES_REQ = "TOP_MOVIES_REQ";
+export const TOP_MOVIES_RES = "TOP_MOVIES_RES";
+export const TOP_MOVIES_ERR = "TOP_MOVIES_ERR";
+

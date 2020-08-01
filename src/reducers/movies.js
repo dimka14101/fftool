@@ -10,7 +10,7 @@ const initialState = {
 
 }
 
-const postsReducer = ( state = initialState, action ) => {
+const moviesReducer = ( state = initialState, action ) => {
     switch( action.type ){
 
         case MOVIES_REQ:
@@ -39,4 +39,4 @@ const postsReducer = ( state = initialState, action ) => {
 }
 
 
-export default postsReducer;
+export default moviesReducer;
