@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 
 import { FilterPanel, MoviesList, TopMoviesPanel } from "./MainContainer";
+import Search from './Header/Search'
 
 class Home extends Component {
 
     render = () => {
         return (
             <div>
+                <Search/>
                 <div className="row">
                     <h1> Movies </h1>
                 </div>
