@@ -1,0 +1,80 @@
+.genre-dropdown {
+    width: 100%;
+    border-radius: 4px;
+    border-color: #007bff;
+}
+
+.genre-preloader {
+    width: 100%;
+    height: auto;
+}
+
+.genre-movie-container {
+    width: 100%;
+    margin: 1%;
+}
+
+.genre-filter-movie-poster {
+    width: 30%;
+    height: auto;
+}
+
+.genre-filter-movie-name {
+    font-size: 12px;
+    margin: 0;
+}
+
+.genre-filter-movie-overview {
+    margin: 3%;
+    font-size: 10px;
+}
+
+.genre-filter-pagination-btn {
+    width: 30%;
+    margin: 1%;
+}
+
+.main-list-preloader {
+    width: 20%;
+    height: auto;
+}
+
+.main-list-movie-header {
+    display: flex;
+    justify-content: space-between;
+    height: 50px;
+}
+
+.main-list-score-hight {
+    height: 20px;
+}
+
+.main-list-poster {
+    width: 15%;
+    height: auto;
+}
+
+.main-list-pagination-btn {
+    width: 20%;
+    margin: 1%;
+}
+
+.top-movies-preloader {
+    width: 45%;
+    height: auto;
+}
+
+.top-movies-container {
+    width: 10rem;
+    margin: 1%;
+}
+
+.top-movies-poster {
+    width: 100%;
+    height: auto;
+}
+
+.top-movie-name {
+    font-size:12px;
+    margin:0;
+}

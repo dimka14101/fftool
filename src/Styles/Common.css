@@ -1,0 +1,71 @@
+.search-input {
+    width     : 85% !important;
+    margin-top: 2% !important;
+}
+
+.page-not-found {
+    width : 30%;
+    height: auto;
+}
+
+.page-not-found-home-btn {
+    width : 10%;
+    height: 20px;
+}
+
+.film-page-title {
+    text-align: center;
+    padding   : 10px;
+    opacity   : 0.8;
+}
+
+.film-page-poster {
+    display       : flex;
+    padding-bottom: 20px;
+}
+
+.film-page-poster-img {
+    width        : 30%;
+    height       : 20%;
+    padding-right: 20px;
+}
+
+.film-page-info {
+    padding: 5px 15px 15px 15px;
+    opacity: 0.8;
+}
+
+.recom-film-title {
+    padding  : 3% !important;
+    font-size: 14px;
+}
+
+.seach-film-info {
+    width     : 85% !important;
+    margin-top: 2%;
+}
+
+.search-film-preloader {
+    width : 10%;
+    height: auto;
+}
+
+.search-film-title {
+    display        : flex;
+    justify-content: space-between;
+    height         : 50px;
+}
+
+.search-film-score {
+    height: 20px;
+}
+
+.search-film-poster {
+    width: 15%; 
+    height: auto;
+}
+
+.search-film-pagination-btn {
+    width: 20%;
+    margin: 1%;
+}
