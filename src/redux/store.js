@@ -1,9 +1,7 @@
 import { createStore, compose, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
-
 import reducers from "../Reducers";
-
-import { loadState, saveState } from "../Helpers/localStorage";
+import { loadState } from "../Helpers/localStorage";
 
 const composeEnhancers =
   process.env.NODE_ENV !== "production" &&
@@ -23,12 +21,5 @@ if (preloadData) {
 } else {
   store = createStore(reducers, composeEnhancers(middlewares));
 }
-
-store.subscribe(() => {
-  let state = store.getState();
-  saveState({
-    posts: state.posts,
-  });
-});
 
 export default store;

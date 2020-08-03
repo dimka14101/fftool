@@ -2,47 +2,64 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { getTopMovies } from "../../Actions";
-import loading from '../../Images/inProgress.gif';
+import PreLoader from "../Common/Preloader";
+import moviePoster404 from "../../Images/moviePoster404.png";
+import '../../Styles/MainContainer.css';
+import PropTypes from 'prop-types';
 
 class TopMoviesPanel extends Component {
   componentDidMount = () => {
     this.props.getTopMoviesAction();
   };
 
+  getPosterPath = (path) => {
+    if (path) {
+      return "https://image.tmdb.org/t/p/w500" + path;
+    }
+    return moviePoster404;
+  };
+
   render = () => {
     const { topMoviesLoaded, topMovies } = this.props;
+    const { getPosterPath } = this;
 
     return (
       <>
         <div className="panel">
-          <div className="panel-heading"></div>
+          <div className="panel-heading" />
           <div className="panel-body">
             <h3> Upcoming </h3>
-            {!topMoviesLoaded ? ( 
-               <img className="mr-3 rounded mx-auto d-block" style={{ width: '45%', height: 'auto' }}
-               alt="poster"
-               src={loading} />
-            ) : (
-                <>
-                  {topMovies.map((item) => (
+            {
+              !topMoviesLoaded ? (
+                <PreLoader
+                  preLoaderStyle={"rounded  top-movies-preloader  mx-auto d-block"}
+                  isFilter={false}
+                />
+              ) : (
+                  <>
+                    {
+                      topMovies.map((item) => (
 
-                    <div key={item.id} className="card border-primary" style={{ width: '10rem', margin: '1%' }}>
-                      <img
-                        className="card-img-top"
-                        style={{ width: '100%', height: 'auto' }}
-                        alt="poster"
-                        src={"https://image.tmdb.org/t/p/w500" + item.poster_path}
-                      ></img>
-                      <div className="card-body">
-                        <NavLink to={`/${item.id}`}>
-                          <p className="text-center font-weight-bold" style={{fontSize:'12px', margin:0}}>{item.title+' ('+item.release_date+')'}</p>
-                        </NavLink>
-                      </div>
-                    </div>
-
-                  ))}
-                </>
-              )}
+                        <div
+                          key={item.id}
+                          className="card border-primary top-movies-container"
+                        >
+                          <img
+                            className="card-img-top top-movies-poster"
+                            alt="poster"
+                            src={getPosterPath(item.poster_path)}
+                          />
+                          <div className="card-body">
+                            <NavLink to={`/${item.id}`}>
+                              <p className="text-center font-weight-bold top-movie-name">
+                                {item.title + ' (' + item.release_date + ')'}
+                              </p>
+                            </NavLink>
+                          </div>
+                        </div>
+                      ))}
+                  </>
+                )}
           </div>
         </div>
       </>
@@ -51,7 +68,7 @@ class TopMoviesPanel extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  topMovies: state.topMovies.topMovies,
+  topMovies: state.topMovies.topMovies.results,
   topMoviesLoaded: state.topMovies.topMoviesLoaded,
 });
 
@@ -60,5 +77,10 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(getTopMovies);
   },
 });
+
+TopMoviesPanel.propTypes = {
+  topMoviesLoaded: PropTypes.bool.isRequired,
+  topMovies: PropTypes.array
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(TopMoviesPanel);

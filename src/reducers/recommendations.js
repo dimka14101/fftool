@@ -13,14 +13,12 @@ const recommendationsReducer = (state = initialState, action) => {
         ...state,
         recomMoviesLoaded: false,
       };
-
     case RECOM_RES:
       return {
         ...state,
         recomMoviesLoaded: true,
         movies: action.payload,
       };
-
     case RECOM_ERR:
       return {
         ...state,

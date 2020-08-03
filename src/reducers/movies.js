@@ -13,20 +13,17 @@ const moviesReducer = (state = initialState, action) => {
         ...state,
         moviesLoaded: false,
       };
-
     case MOVIES_RES:
       return {
         ...state,
         moviesLoaded: true,
         movies: action.payload,
       };
-
     case MOVIES_ERR:
       return {
         ...state,
         moviesError: [...state.moviesError, action.error],
       };
-
     default:
       return state;
   }

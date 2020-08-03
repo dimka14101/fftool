@@ -1,12 +1,26 @@
-import React from "react";
+import React, { Component } from "react";
+import noFilterImg from '../../Images/noFiltersImg.png';
+import loading from '../../Images/inProgress.gif';
+import PropTypes from 'prop-types';
 
-const Preloader = () => {
-  return (
-    <div class="d-flex justify-content-center">
-      <div class="spinner-border" role="status">
-        <h2 class="sr-only"> Loading ... </h2>
-      </div>
-    </div>
-  );
+class Preloader extends Component {
+  render = () => {
+    const { preLoaderStyle, isFilter } = this.props;
+    const img = isFilter ? noFilterImg : loading;
+
+    return (
+      <img
+        className={'mr-3 ' + preLoaderStyle}
+        alt="poster"
+        src={img}
+      />
+    );
+  };
+}
+
+Preloader.propTypes = {
+  preLoaderStyle: PropTypes.string,
+  isFilter: PropTypes.bool.isRequired
 };
+
 export default Preloader;

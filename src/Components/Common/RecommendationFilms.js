@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import { getMovieRecommendationFilms } from "../../Actions";
 import { NavLink } from "react-router-dom";
 import Preloader from "./Preloader";
+import '../../Styles/Common.css';
+import PropTypes from 'prop-types';
 
 class FilmRecommendation extends React.Component {
   componentDidMount = () => {
@@ -21,30 +23,36 @@ class FilmRecommendation extends React.Component {
             >
               Films recommendation
             </h5>
-            {!loaded ? (
-              <Preloader />
-            ) : (
-              <div class="row row-cols-1 row-cols-md-6">
-                {movies.results.map((item) => (
-                  <NavLink key={item.id} to={`/${item.id}`}>
-                    <div key={item.id} class="col mb-4">
-                      <div class="card h-100">
-                        <img
-                          class="card-img-top"
-                          alt="poster"
-                          src={
-                            "https://image.tmdb.org/t/p/w500" + item.poster_path
-                          }
-                        ></img>
-                        <div class="card-body">
-                          <p class="card-title"> {item.original_title}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </NavLink>
-                ))}
-              </div>
-            )}
+            {
+              !loaded ? (
+                <Preloader preLoaderStyle={"rounded main-list-preloader mx-auto d-block"}
+                  isFilter={false}
+                />
+              ) : (
+                  <div className="row row-cols-1 row-cols-md-6">
+                    {
+                      movies.results.map((item) => (
+                        <NavLink key={item.id} to={`/${item.id}`}>
+                          <div key={item.id} className="col mb-4">
+                            <div className="card h-100">
+                              <img
+                                className="card-img-top"
+                                alt="poster"
+                                src={
+                                  "https://image.tmdb.org/t/p/w500" + item.poster_path
+                                }
+                              />
+                              <div className="recom-film-title card-body" >
+                                <p className="card-title text-center"> {item.original_title}</p>
+                              </div>
+                            </div>
+                          </div>
+                        </NavLink>
+                      ))
+                    }
+                  </div>
+                )
+            }
           </div>
         </div>
       </>
@@ -62,5 +70,9 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(getMovieRecommendationFilms(movieId));
   },
 });
+
+FilmRecommendation.propTypes = {
+  loaded: PropTypes.bool.isRequired
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(FilmRecommendation);

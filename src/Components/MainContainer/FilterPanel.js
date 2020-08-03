@@ -3,7 +3,9 @@ import { connect } from "react-redux";
 import { getGenres, filterByGenre, clearFilterMovies } from "../../Actions";
 import { NavLink } from "react-router-dom";
 import moviePoster404 from '../../Images/moviePoster404.png';
-import noFilterImg from '../../Images/noFiltersImg.png';
+import '../../Styles/MainContainer.css';
+import PreLoader from '../Common/Preloader';
+import PropTypes from 'prop-types';
 
 class FilterPanel extends Component {
     prefferedGenres = [];
@@ -41,18 +43,24 @@ class FilterPanel extends Component {
         window.scrollTo(0, 0);
         this.pageId++;
         this.recalculatePages();
-        if (this.pageId >= 1000 && this.pageId <= 0)
+
+        if (this.pageId >= 1000 && this.pageId <= 0) {
             return;
-            this.props.getByGenreAction(this.selectedGenreId, this.pageId);
+        }
+
+        this.props.getByGenreAction(this.selectedGenreId, this.pageId);
     }
 
     getPreviousPageByGenresAction = () => {
         window.scrollTo(0, 0);
         this.pageId--;
         this.recalculatePages();
-        if (this.pageId >= 1000 && this.pageId <= 0)
+
+        if (this.pageId >= 1000 && this.pageId <= 0) {
             return;
-            this.props.getByGenreAction(this.selectedGenreId, this.pageId);
+        }
+
+        this.props.getByGenreAction(this.selectedGenreId, this.pageId);
     }
 
     getPosterPath = (path) => {
@@ -63,89 +71,120 @@ class FilterPanel extends Component {
     }
 
     render = () => {
-        const { loaded, genres } = this.props;
-        const { byGenreLoaded, byGenreMovies } = this.props;
-        const { getByGenresAction, getPosterPath } = this;
-        const { getNextPageByGenresAction, getPreviousPageByGenresAction, nextPageId, previousPageId } = this;
+        const {
+            loaded,
+            genres,
+            byGenreLoaded,
+            byGenreMovies
+        } = this.props;
+
+        const {
+            getByGenresAction,
+            getPosterPath,
+            getNextPageByGenresAction,
+            getPreviousPageByGenresAction,
+            nextPageId,
+            previousPageId
+        } = this;
 
         return (
             <>
                 <div className="panel">
-                    <div className="panel-heading"></div>
+                    <div className="panel-heading" />
                     <div className="panel-body">
                         <h3> Filter </h3>
                         {
                             !loaded ? (<></>) : (
-                                
-                                    <div>
-                                        <select id="genres" name="genres" style={{
-                                                width: '100%',
-                                                borderRadius: '4px',
-                                                borderColor: '#007bff'
-                                        }}
-                                            onChange={getByGenresAction()}
-                                        >
-                                            <option
-                                                            key={0}
-                                                            value={''}
-                                                            defaultValue>
-                                                            ---------
-                                                        </option>
-                                            {
-                                                genres.map(item => {
-                                                    return (
-                                                        <option
-                                                            key={item.id}
-                                                            value={item.id}
-                                                        >
-                                                            {item.name}
-                                                        </option>
-                                                    )
-                                                })
-                                            }
-                                        </select>
-                                    </div>
-                                )
+                                <div>
+                                    <select
+                                        id="genres"
+                                        name="genres"
+                                        className='genre-dropdown'
+                                        onChange={getByGenresAction()}
+                                    >
+                                        <option
+                                            key={0}
+                                            value={''}
+                                            defaultValue>
+                                            ---------
+                                        </option>
+                                        {
+                                            genres.map(item => {
+                                                return (
+                                                    <option
+                                                        key={item.id}
+                                                        value={item.id}
+                                                    >
+                                                        {item.name}
+                                                    </option>
+                                                )
+                                            })
+                                        }
+                                    </select>
+                                </div>
+                            )
                         }
                         {
                             !byGenreLoaded ? (
-                                <img className="mr-3" style={{ width: '100%', height: 'auto' }}
-                                                        alt="poster"
-                                                        src={noFilterImg} />
+                                <PreLoader
+                                    preLoaderStyle={'genre-preloader'}
+                                    isFilter={true}
+                                />
                             ) : (
                                     <>
-                                        {byGenreMovies.map((item) => (
-                                            <div key={item.id} className="card border-primary" style={{ width: '100%', margin: '1%' }}>
-                                                <div className="media">
-                                                    <img className="mr-3" style={{ width: '30%', height: 'auto' }}
-                                                        alt="poster"
-                                                        src={getPosterPath(item.poster_path)} />
-                                                    <div className="media-body">
-                                                        <NavLink to={`/${item.id}`}>
-                                                            <p className="mt-0" style={{ fontSize: '12px', margin: 0 }} >{item.title + '(' + item.release_date + ')'}</p>
-                                                        </NavLink>
+                                        {
+                                            byGenreMovies.map((item) => (
+                                                <div key={item.id}
+                                                    className="genre-movie-container card border-primary"
+                                                >
+                                                    <div className="media">
+                                                        <img
+                                                            className="genre-filter-movie-poster mr-3"
+                                                            alt="poster"
+                                                            src={getPosterPath(item.poster_path)}
+                                                        />
+                                                        <div className="media-body">
+                                                            <NavLink to={`/${item.id}`}>
+                                                                <p className="genre-filter-movie-name mt-0" >
+                                                                    {item.title + '(' + item.release_date + ')'}
+                                                                </p>
+                                                            </NavLink>
+                                                            <div className="genre-filter-movie-overview text-justify">
+                                                                {item.overview}
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-
-                                        ))}
-                                        { this.selectedGenreId !== '' ? (
-                                        <div className="d-flex justify-content-center">
-                                            {previousPageId >= 1 ? (
-                                                <button type="button" className="btn btn-md btn-primary" onClick={getPreviousPageByGenresAction} style={{ width: '30%', margin: '1%' }}>Previous Page ({previousPageId})</button>
-                                            ) : (
-                                                    <></>
-                                                )
-                                            }
-                                            <br></br>
-                                            {byGenreMovies.length>0 ? (
-                                            <button type="button" className="btn btn-md btn-primary" onClick={getNextPageByGenresAction} style={{ width: '30%', margin: '1%' }}>Next Page ({nextPageId})</button>
-                                            ) : (
-                        <></>
-                      )
-                    }
-                                        </div>
-                                        ) : (<></>)
+                                            ))}
+                                        {
+                                            this.selectedGenreId !== '' ? (
+                                                //TODO: can be moved to separate component
+                                                <div className="d-flex justify-content-center">
+                                                    {
+                                                        previousPageId >= 1 ? (
+                                                            <button
+                                                                type="button"
+                                                                className="genre-filter-pagination-btn btn btn-md btn-primary"
+                                                                onClick={getPreviousPageByGenresAction}
+                                                            >
+                                                                Previous Page ({previousPageId})
+                                                            </button>
+                                                        ) : (<></>)
+                                                    }
+                                                    <br></br>
+                                                    {
+                                                        byGenreMovies.length > 0 ? (
+                                                            <button
+                                                                type="button"
+                                                                className="genre-filter-pagination-btn btn btn-md btn-primary"
+                                                                onClick={getNextPageByGenresAction}
+                                                            >
+                                                                Next Page ({nextPageId})
+                                                         </button>
+                                                        ) : (<></>)
+                                                    }
+                                                </div>
+                                            ) : (<></>)
                                         }
                                     </>
                                 )
@@ -158,9 +197,9 @@ class FilterPanel extends Component {
 };
 
 const mapStateToProps = (state) => ({
-    genres: state.genres.genres,
+    genres: state.genres.genres.genres,
     loaded: state.genres.genresLoaded,
-    byGenreMovies: state.moviesByGenre.moviesByGenre,
+    byGenreMovies: state.moviesByGenre.moviesByGenre.results,
     byGenreLoaded: state.moviesByGenre.moviesByGenreLoaded
 });
 
@@ -176,5 +215,11 @@ const mapDispatchToProps = (dispatch) => ({
     }
 });
 
+FilterPanel.propTypes = {
+    loaded: PropTypes.bool.isRequired,
+    genres: PropTypes.array,
+    byGenreLoaded: PropTypes.bool.isRequired,
+    byGenreMovies: PropTypes.array
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(FilterPanel);

@@ -2,8 +2,10 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { getMovies } from "../../Actions";
-import moviePoster404 from '../../Images/moviePoster404.png'
-import loading from '../../Images/inProgress.gif';
+import moviePoster404 from "../../Images/moviePoster404.png";
+import PreLoader from "../Common/Preloader";
+import '../../Styles/MainContainer.css';
+import PropTypes from 'prop-types';
 
 class MoviesList extends Component {
   pageId = 1;
@@ -19,94 +21,121 @@ class MoviesList extends Component {
     this.nextPageId++;
     this.previousPageId = this.pageId;
     this.previousPageId--;
-  }
+  };
 
   nextPage = () => {
     window.scrollTo(0, 0);
     this.pageId++;
     this.recalculatePages();
-    if (this.pageId >= 1000 && this.pageId <= 0)
+
+    if (this.pageId >= 1000 && this.pageId <= 0) {
       return;
-    this.props.getMoviesAction(this.pageId)
-  }
+    }
+
+    this.props.getMoviesAction(this.pageId);
+  };
 
   previousPage = () => {
     window.scrollTo(0, 0);
     this.pageId--;
     this.recalculatePages();
-    if (this.pageId >= 1000 && this.pageId <= 0)
-      return;
-    this.props.getMoviesAction(this.pageId)
-  }
 
-  
+    if (this.pageId >= 1000 && this.pageId <= 0) {
+      return;
+    }
+
+    this.props.getMoviesAction(this.pageId);
+  };
+
   getPosterPath = (path) => {
     if (path) {
-        return "https://image.tmdb.org/t/p/w500" + path;
+      return "https://image.tmdb.org/t/p/w500" + path;
     }
     return moviePoster404;
-}
+  };
 
   render = () => {
-    const { loaded, movies } = this.props;
-    const { nextPage, previousPage,nextPageId, previousPageId, getPosterPath } = this;
+    const {
+      loaded,
+      movies
+    } = this.props;
+
+    const {
+      nextPage,
+      previousPage,
+      nextPageId,
+      previousPageId,
+      getPosterPath
+    } = this;
+
     return (
       <>
         <div className="panel">
-          <div className="panel-heading"></div>
+          <div className="panel-heading" />
           <div className="panel-body">
             <h3> Top rated </h3>
             {!loaded ? (
-              <img className="mr-3 rounded mx-auto d-block" style={{ width: '20%', height: 'auto' }}
-              alt="poster"
-              src={loading} />
+              <PreLoader
+                preLoaderStyle={"rounded main-list-preloader mx-auto d-block"}
+                isFilter={false}
+              />
             ) : (
                 <>
                   {
-                    movies.map((item) => (
-
-                      <div key={item.id} className="card border-primary mb-3" style={{ maxWidth: '100%' }}>
-
-                        <div className="card-header" style={{ display: 'flex', justifyContent: 'space-between', height: '50px' }}>
+                    movies.map(item => (
+                      <div
+                        key={item.id}
+                        className="card border-primary mb-3"
+                      >
+                        <div className="main-list-movie-header card-header">
                           <NavLink to={`/${item.id}`}>
-                            <p className="text-left">{item.title+' ('+item.release_date+')'}</p>
+                            <p className="text-left">
+                              {item.title + " (" + item.release_date + ")"}
+                            </p>
                           </NavLink>
-                          <span className="badge badge-secondary text-right" style={{ height: '20px' }}>{item.popularity}</span>
+                          <span className="main-list-score-hight badge badge-secondary text-right">
+                            {item.popularity}
+                          </span>
                         </div>
 
                         <div className="card-body text-primary media">
-
                           <img
-                            className="mr-3"
-                            style={{ width: "15%", height: "auto" }}
+                            className="mr-3 main-list-poster"
                             alt="poster"
                             src={getPosterPath(item.poster_path)}
-                          ></img>
+                          />
                           <div className="media-body">
                             {item.overview}
                           </div>
-
                         </div>
                       </div>
-
-
                     ))}
                   <div className="d-flex justify-content-center">
-                    { previousPageId >=1 ? (
-                       <button type="button" className="btn btn-md btn-primary" onClick={previousPage} style={{width:'20%', margin:'1%'}}>Previous Page ({previousPageId})</button>
-                    ) : (
-                      <></>
-                    )
+                    {
+                      previousPageId >= 1 ? (
+                        //TODO: can be moved to separate component
+                        <button
+                          type="button"
+                          className="btn btn-md btn-primary main-list-pagination-btn"
+                          onClick={previousPage}
+                        >
+                          Previous Page ({previousPageId})
+                        </button>
+                      ) : (<></>)
                     }
                     <br></br>
-                    { movies.length>0 ? (
-                    <button type="button" className="btn btn-md btn-primary" onClick={nextPage} style={{width:'20%', margin:'1%'}}>Next Page ({nextPageId})</button>
-                    ) : (
-                        <></>
-                      )
+                    {
+                      movies.length > 0 ? (
+                        <button
+                          type="button"
+                          className="btn btn-md btn-primary main-list-pagination-btn"
+                          onClick={nextPage}
+                        >
+                          Next Page ({nextPageId})
+                      </button>
+                      ) : (<></>)
                     }
                   </div>
-
                 </>
               )}
           </div>
@@ -116,15 +145,20 @@ class MoviesList extends Component {
   };
 }
 
-const mapStateToProps = (state) => ({
-  movies: state.movies.movies,
-  loaded: state.movies.moviesLoaded,
+const mapStateToProps = state => ({
+  movies: state.movies.movies.results,
+  loaded: state.movies.moviesLoaded
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  getMoviesAction: (pageId) => {
+const mapDispatchToProps = dispatch => ({
+  getMoviesAction: pageId => {
     dispatch(getMovies(pageId));
-  },
+  }
 });
+
+MoviesList.propTypes = {
+  loaded: PropTypes.bool.isRequired,
+  movies: PropTypes.array
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(MoviesList);

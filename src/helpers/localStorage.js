@@ -10,9 +10,11 @@ export const saveState = (state) => {
 export const loadState = () => {
   try {
     const loadedState = sessionStorage.getItem("itea_state");
+    
     if (loadedState === null) {
       return undefined;
     }
+
     return JSON.parse(loadedState);
   } catch (error) {
     return undefined;
