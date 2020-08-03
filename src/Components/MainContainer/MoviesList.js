@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { getMovies } from "../../Actions";
+import moviePoster404 from '../../Images/moviePoster404.png'
+import loading from '../../Images/inProgress.gif';
 
 class MoviesList extends Component {
   pageId = 1;
@@ -38,10 +40,16 @@ class MoviesList extends Component {
   }
 
   
+  getPosterPath = (path) => {
+    if (path) {
+        return "https://image.tmdb.org/t/p/w500" + path;
+    }
+    return moviePoster404;
+}
 
   render = () => {
     const { loaded, movies } = this.props;
-    const { nextPage, previousPage,nextPageId, previousPageId } = this;
+    const { nextPage, previousPage,nextPageId, previousPageId, getPosterPath } = this;
     return (
       <>
         <div className="panel">
@@ -49,7 +57,9 @@ class MoviesList extends Component {
           <div className="panel-body">
             <h3> Top rated </h3>
             {!loaded ? (
-              <h2> Loading ... </h2>
+              <img className="mr-3 rounded mx-auto d-block" style={{ width: '20%', height: 'auto' }}
+              alt="poster"
+              src={loading} />
             ) : (
                 <>
                   {
@@ -70,7 +80,7 @@ class MoviesList extends Component {
                             className="mr-3"
                             style={{ width: "15%", height: "auto" }}
                             alt="poster"
-                            src={"https://image.tmdb.org/t/p/w500" + item.poster_path}
+                            src={getPosterPath(item.poster_path)}
                           ></img>
                           <div className="media-body">
                             {item.overview}
@@ -89,7 +99,12 @@ class MoviesList extends Component {
                     )
                     }
                     <br></br>
+                    { movies.length>0 ? (
                     <button type="button" className="btn btn-md btn-primary" onClick={nextPage} style={{width:'20%', margin:'1%'}}>Next Page ({nextPageId})</button>
+                    ) : (
+                        <></>
+                      )
+                    }
                   </div>
 
                 </>

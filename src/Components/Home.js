@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import { FilterPanel, MoviesList, TopMoviesPanel } from "./MainContainer";
-import Search from './Header/Search'
+import Search from './Common/Search'
 
 class Home extends Component {
 
@@ -9,9 +9,6 @@ class Home extends Component {
         return (
             <div>
                 <Search/>
-                <div className="row">
-                    <h1> Movies </h1>
-                </div>
                 <div className="row">
                     <div className="col-md-1"/>
                     <div className="col-md-2">

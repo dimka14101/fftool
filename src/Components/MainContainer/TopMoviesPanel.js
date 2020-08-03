@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { getTopMovies } from "../../Actions";
+import loading from '../../Images/inProgress.gif';
 
 class TopMoviesPanel extends Component {
   componentDidMount = () => {
@@ -17,8 +18,10 @@ class TopMoviesPanel extends Component {
           <div className="panel-heading"></div>
           <div className="panel-body">
             <h3> Upcoming </h3>
-            {!topMoviesLoaded ? (
-              <h2> Top Movies loading  ... </h2>
+            {!topMoviesLoaded ? ( 
+               <img className="mr-3 rounded mx-auto d-block" style={{ width: '45%', height: 'auto' }}
+               alt="poster"
+               src={loading} />
             ) : (
                 <>
                   {topMovies.map((item) => (

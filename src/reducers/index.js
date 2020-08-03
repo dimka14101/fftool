@@ -5,6 +5,7 @@ import movie from "./movie";
 import genres from './genres';
 import moviesByGenre from './filterByGenre'
 import topMovies from './topMovies'
+import searchByQuery from './searchByQuery'
 
 const rootReducer = combineReducers({
   movies,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
   movie,
   genres,
   moviesByGenre,
-  topMovies
+  topMovies,
+  searchByQuery
 });
 
 export default rootReducer;

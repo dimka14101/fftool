@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getGenres, filterByGenre, clearFilterMovies } from "../../Actions";
 import { NavLink } from "react-router-dom";
-import moviePoster404 from '../../Images/moviePoster404.png'
+import moviePoster404 from '../../Images/moviePoster404.png';
+import noFilterImg from '../../Images/noFiltersImg.png';
 
 class FilterPanel extends Component {
     prefferedGenres = [];
@@ -74,12 +75,14 @@ class FilterPanel extends Component {
                     <div className="panel-body">
                         <h3> Filter </h3>
                         {
-                            !loaded ? (
-                                <h2> Loading ... </h2>
-                            ) : (
+                            !loaded ? (<></>) : (
                                 
                                     <div>
-                                        <select id="genres" name="genres"
+                                        <select id="genres" name="genres" style={{
+                                                width: '100%',
+                                                borderRadius: '4px',
+                                                borderColor: '#007bff'
+                                        }}
                                             onChange={getByGenresAction()}
                                         >
                                             <option
@@ -106,7 +109,9 @@ class FilterPanel extends Component {
                         }
                         {
                             !byGenreLoaded ? (
-                                <h2> Select Genre ... </h2>
+                                <img className="mr-3" style={{ width: '100%', height: 'auto' }}
+                                                        alt="poster"
+                                                        src={noFilterImg} />
                             ) : (
                                     <>
                                         {byGenreMovies.map((item) => (
@@ -133,7 +138,12 @@ class FilterPanel extends Component {
                                                 )
                                             }
                                             <br></br>
+                                            {byGenreMovies.length>0 ? (
                                             <button type="button" className="btn btn-md btn-primary" onClick={getNextPageByGenresAction} style={{ width: '30%', margin: '1%' }}>Next Page ({nextPageId})</button>
+                                            ) : (
+                        <></>
+                      )
+                    }
                                         </div>
                                         ) : (<></>)
                                         }
