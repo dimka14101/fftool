@@ -56,7 +56,7 @@ class SearchMoviesList extends Component {
 
   getBySearch = (e) => {
     const query = e.target.value.toLowerCase();
-
+    
     if (e.keyCode === 13) {
       if (this.searchQuery === query) {
         this.props.getMoviesByQueryAction(this.searchQuery, this.pageId)
@@ -100,17 +100,16 @@ class SearchMoviesList extends Component {
             <div className="row">
               <div className="col-md-3" />
               <div className="col-md-6">
-                <nav class="navbar navbar-light bg-light">
-                  <a class="navbar-brand" href="/">
-                    <img src={mainLogo} width="30" height="30" class="d-inline-block align-top" alt="poster" />
+                <nav className="navbar navbar-light bg-light">
+                  <a className="navbar-brand" href="/">
+                    <img src={mainLogo} width="30" height="30" className="d-inline-block align-top" alt="poster" />
                     Home
                   </a>
                   <div className="seach-film-info input-group mb-3">
                     <input
                       type="text"
                       className="form-control"
-                      value={this.searchQuery}
-                      onChange={getBySearch} placeholder="Enter at least 3 chars for search"
+                      onKeyUp={getBySearch} placeholder="Enter at least 3 chars for search"
                       aria-label="Recipient's username"
                       aria-describedby="basic-addon2"
                     />
